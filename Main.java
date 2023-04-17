@@ -12,7 +12,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 
 public class Main extends Application {
-Button button;
+Button button, waterButton, sunButton, soilButton;
 Scene scene, scene1;
 
 
@@ -32,16 +32,49 @@ public void start (Stage primaryStage) throws Exception{
 
     HBox hBox = new HBox(100, userLabel);
     VBox vBox = new VBox(100,hBox, submitButton, label1);
+    hBox.setAlignment(Pos.TOP_CENTER);
     vBox.setAlignment(Pos.CENTER);
     vBox.setPadding(new Insets(10));
     submitButton.setOnAction(e->primaryStage.setScene(scene1));
+    
+
+    //2nd scence
+    GridPane gridTwo = new GridPane();
+    gridTwo.setPadding(new Insets(10,100,10,100));
+    gridTwo.setVgap(8);
+    gridTwo.setHgap(10);
+    //labels
+    Label labelTwo = new Label("Here are the options!");
+    Label labelWater = new Label("Water Sensor");
+    Label labelSun = new Label("Sun Sensor");
+    Label labelSoil = new Label("Soil Sensor");
+    
+    Button waterButton = new Button("Analyze");
+    Button sunButton = new Button("Analyze");
+    Button soilButton = new Button("Analyze");
+
+
+    HBox hbox1 = new HBox(100, labelTwo);
+    HBox hbox2 = new HBox(190, labelWater,labelSun,labelSoil);
+    HBox buttonBox = new HBox(200, waterButton, sunButton, soilButton);
+    hbox1.setAlignment(Pos.TOP_CENTER);
+    
+    VBox vbox1 = new VBox(20, hbox1,hbox2,buttonBox);
+
+    //gridTwo.getChildren().addAll(labelTwo,waterButton);
+    scene1 = new Scene(vbox1,700,400);
+    
+
+   
+    
+
+
 
 
     Scene scene = new Scene(vBox);
     primaryStage.setScene(scene);
     primaryStage.setTitle("Arduino Project");
     primaryStage.show();
-    scene1 = new Scene(grid,700,400);
 
 
 
