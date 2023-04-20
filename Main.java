@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
@@ -10,6 +11,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Main extends Application {
 Button button, waterButton, sunButton, soilButton;
@@ -50,6 +55,27 @@ public void start (Stage primaryStage) throws Exception{
     Label labelSoil = new Label("Soil Sensor");
     
     Button waterButton = new Button("Analyze");
+    waterButton.setOnAction(event -> {
+        File file = new File("water.txt");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            StringBuilder content = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+            TextArea textArea = new TextArea();
+            textArea.setText(content.toString());
+            // Add the text area to your GUI layout as appropriate
+        } catch (IOException e) {
+            // Handle any exceptions that may occur when reading the file
+        }
+    });
+
+
+
+
+
     Button sunButton = new Button("Analyze");
     Button soilButton = new Button("Analyze");
 
