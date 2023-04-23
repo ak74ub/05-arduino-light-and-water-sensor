@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.stream.Stream;
+import java.util.List;
+
 
 public class ArduinoInterface extends Application {
 
@@ -49,7 +51,7 @@ public class ArduinoInterface extends Application {
 
         // Create a Button to read the contents of Sun
         Button button3 = new Button("Sun Analyzer");
-        button3.setOnAction(event -> findAverage("water.txt", textArea3));
+        button3.setOnAction(event -> findColumnAverages("SensorData.txt", textArea3));
         gridPane.add(button3, 2, 6);
 
         // Create a Scene and display it on the Stage
@@ -96,6 +98,35 @@ public class ArduinoInterface extends Application {
             e.printStackTrace();
         }
     }
+    private void findColumnAverages(String filename, TextArea textArea) {
+        try {
+            // Read the contents of the specified file
+            List<String> lines = Files.readAllLines(new File(filename).toPath());
+    
+            // Parse each line as an array of doubles and calculate the column-wise average
+            double[] sums = new double[3];
+            for (String line : lines) {
+                double[] numbers = Arrays.stream(line.split("\\s+")).mapToDouble(Double::parseDouble).toArray();
+                for (int i = 0; i < numbers.length; i++) {
+                    sums[i] += numbers[i];
+                }
+            }
+            double[] averages = new double[3];
+            for (int i = 0; i < averages.length; i++) {
+                averages[i] = sums[i] / lines.size();
+            }
+    
+            // Display the column-wise averages in the TextArea
+            textArea.setText("Average Temperature: " + averages[0] + "\n" +
+                    "----------------------------------------------------------------"+"\n"+
+                    "Average Lux: " + averages[1] + "\n" +
+                    "----------------------------------------------------------------"+"\n"+
+                    "Average Voltage Capacity: " + averages[2]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     
 
     public static void main(String[] args) {
