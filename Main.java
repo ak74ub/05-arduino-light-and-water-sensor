@@ -19,6 +19,7 @@ import java.io.IOException;
 public class Main extends Application {
 Button button, waterButton, sunButton, soilButton;
 Scene scene, scene1;
+private TextArea textArea;
 
 
 public static void main(String[] args){
