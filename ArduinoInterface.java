@@ -7,6 +7,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.TextArea;
+import java.text.DecimalFormat;
 
 import java.io.File;
 import java.io.IOException;
@@ -112,20 +114,25 @@ public class ArduinoInterface extends Application {
                 averages[i] = sums[i] / lines.size();
             }
     
-            // Check if the average voltage capacity is greater than or less than 500, and display corresponding message
-            String voltageMessage = "Dry soil";
-            if (averages[2] > 500) {
-                voltageMessage = "Wet soil";
-            }
+            // Format the averages to 5 significant figures
+            DecimalFormat df = new DecimalFormat("#.###");
+            String tempAvg = df.format(averages[0]);
+            String luxAvg = df.format(averages[1]);
+            String voltageAvg = df.format(averages[2]);
     
-            // Display the column-wise averages and soil status in the TextArea
-            textArea.setText("Average Temperature: " + averages[0] + "\n" +
+            // Display the column-wise averages in the TextArea
+            textArea.setText("Average Temperature: " + tempAvg + "\n" +
                     "----------------------------------------------------------------"+"\n"+
-                    "Average Lux: " + averages[1] + "\n" +
+                    "Average Lux: " + luxAvg + "\n" +
                     "----------------------------------------------------------------"+"\n"+
-                    "Average Voltage Capacity: " + averages[2] + "\n" +
-                    "----------------------------------------------------------------"+"\n"+
-                    "Soil status: " + voltageMessage);
+                    "Average Voltage Capacity: " + voltageAvg);
+    
+            // Check if the soil is wet or dry based on the average voltage capacity
+            if (averages[2] > 500) {
+                textArea.appendText("\nSoil Status: The soil is wet"+"\n"+"----------------------------------------------------------------");
+            } else {
+                textArea.appendText("\nSoil Status: The soil is dry"+"\n"+"----------------------------------------------------------------");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
