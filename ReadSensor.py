@@ -1,5 +1,4 @@
 import serial
-import time
 
 f = open("SensorData.txt", "w")
 sensorInfo = ""
@@ -14,6 +13,7 @@ while True: # maybe replace with an exit condition at some point
     sensorInfo = ser.readline().decode().strip() # blocking call. Sleep is not needed
     f = open("SensorData.txt", "a")
     f.write(sensorInfo + "\n")
+    print("Writen : ", sensorInfo)
 
 
 f.close()   # good practice or something
