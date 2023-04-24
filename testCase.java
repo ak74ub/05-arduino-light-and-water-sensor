@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.Scanner;
 
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class testCase {
@@ -50,6 +50,28 @@ public class testCase {
     }
 
     private void assertTrue(String s, boolean b) {
+    }
+    @Test
+    public void testOnlyNumbers() {
+        
+        String filePath = "SensorData.txt";
+        File file = new File(filePath);
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] numbers = line.split("\\s+");
+                for (String number : numbers) {
+                    // Check if the string contains any non-numeric characters
+                    if (!number.matches("-?\\d+(\\.\\d+)?")) {
+                        fail("File contains non-numeric characters");
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            fail("File not found");
+        }
     }
     ///
 }
