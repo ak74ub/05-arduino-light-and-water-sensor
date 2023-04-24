@@ -2,16 +2,18 @@ import serial
 import time
 
 f = open("SensorData.txt", "w")
-SLEEPTIME = 60
 sensorInfo = ""
 
-ser = serial.Serial('COM4', 9600, timeout=None) # COM4 is a stand in, actual port may vary
+ser = serial.Serial('COM3', 9600, timeout=None) # COM3 is the port used by Alex's computer. Might be different on other machines
+
+# makeshift do while
+sensorInfo = ser.readline().decode().strip() 
+f.write(sensorInfo + "\n")
 while True: # maybe replace with an exit condition at some point
-    sensorInfo = ser.readline().decode().strip()
-    f.write(sensorInfo + "\n")
-    f.close()
-    time.sleep(SLEEPTIME) # sleep some amount of time, should depend on sensor read interval
+    f.close() # close file while ser.readline() blocks
+    sensorInfo = ser.readline().decode().strip() # blocking call. Sleep is not needed
     f = open("SensorData.txt", "a")
+    f.write(sensorInfo + "\n")
 
 
 f.close()   # good practice or something
