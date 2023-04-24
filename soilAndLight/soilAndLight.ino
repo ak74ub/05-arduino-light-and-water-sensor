@@ -2,20 +2,26 @@
 #include <Wire.h>
 #include "BH1750.h"
 #include <stdio.h>
-#include <string.h>
 
 Adafruit_seesaw soil_sensor;
 BH1750 light_meter;
 char sensor_data[20] = "";
-char Str_Lux[30];
-char Str_Capread[30];
-char Str_Temp[30];
+char Str_Lux[10];
+char Str_Temp[10];
 
 void setup(){
     Serial.begin(9600);
     Wire.begin();
-    light_meter.begin();
-    soil_sensor.begin(0x36); 
+    // check to make sure the light sensor initiates properly. If not, don't run the sketch
+    if(!light_meter.begin()){
+        Serial.println("light sensor not found!");
+        exit(0); // loops infinitely
+    }
+    // check to make the soil sensor initiates properly. If not, don't run the sketch
+    if(!soil_sensor.begin(0x36)){
+        Serial.println("soil sensor not found!");
+        exit(0); // loops infinitely
+    } 
 }
 
 void loop(){
@@ -24,15 +30,12 @@ void loop(){
     float lux = light_meter.readLightLevel();
     uint16_t capread = soil_sensor.touchRead(0);
 
-    Serial.println(tempC);
-
     //Converting floats to string due to Arduino IDE does not take Floats
     dtostrf(lux,4,2,Str_Lux);
-    dtostrf(capread,4,2, Str_Capread);
     dtostrf(tempC, 4, 2, Str_Temp);
 
-    //Taking the data and printing it to a file. 
-    snprintf(sensor_data, 20, "%s %s %s", Str_Temp, Str_Lux, Str_Capread);
+    //Taking the data and sending it to the COM port to be read by ReadSensor.py 
+    snprintf(sensor_data, 20, "%s %s %d", Str_Temp, Str_Lux, capread);
     Serial.println(sensor_data);
     delay(1000);
 }
