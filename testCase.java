@@ -48,12 +48,26 @@ public class testCase {
         }
         reader.close();
     }
+    @Test
+    public void testCapacitiveInRange() throws IOException {
+        String filePath = "SensorData.txt";
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+        float lineNum = 0;
+        while ((line = reader.readLine()) != null) {
+            lineNum++;
+            String[] parts = line.split("\\s+");
+            Float col3 = Float.parseFloat(parts[2]);
+            assertTrue("Line " + lineNum + ": Column 3 is out of range", col3 >= 200 && col3 <= 2000);
+        }
+        reader.close();
+    }
 
     private void assertTrue(String s, boolean b) {
     }
     @Test
     public void testOnlyNumbers() {
-        
+
         String filePath = "SensorData.txt";
         File file = new File(filePath);
 
