@@ -1,26 +1,25 @@
 #include "Adafruit_seesaw.h"
+#include <stdio.h>
 
-Adafruit_seesaw ss;
+Adafruit_seesaw soil_sensor;
+char output[20];
+char str_temp[10];
 
 void setup() {
-  Serial.begin(115200);
-
-  Serial.println("seesaw Soil Sensor example!");
+  Serial.begin(9600);
   
-  if (!ss.begin(0x36)) {
-    Serial.println("ERROR! seesaw not found");
+  if (!soil_sensor.begin(0x36)) {
+    Serial.println("sensor not found!");
     while(1) delay(1);
-  } else {
-    Serial.print("seesaw started! version: ");
-    Serial.println(ss.getVersion(), HEX);
   }
 }
 
 void loop() {
-  float tempC = ss.getTemp();
-  uint16_t capread = ss.touchRead(0);
+  float soil_temp = soil_sensor.getTemp();
+  uint16_t soil_moisture = soil_sensor.touchRead(0);
+  
+  dtostrf(soil_temp, 4, 2, str_temp);
 
-  Serial.print("Temperature: "); Serial.print(tempC); Serial.println("*C");
-  Serial.print("Capacitive: "); Serial.println(capread);
+  snprintf(output, 20, "%s %d", soil_temp, soil_moisture);
   delay(100);
 }
