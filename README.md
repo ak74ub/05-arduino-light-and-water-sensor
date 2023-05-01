@@ -42,6 +42,11 @@ Wi-Fi module (TBA)
 - Compile launcher.java into a .jar file
     + This requires linking the JavaFX library
         - The easiest way to do this is to use the full JDK provided by [BellSoft](https://bell-sw.com/pages/downloads/)
+    + If you would like to bundle the JavaFX library directly into the jar, that can be done using Intellij (NOTE: this is the method required if you want to bundle the jar into an executable)
+        - When using this method, it is still easiest to create the project using the BellSoft JDK, then compile it into a jar by going to File -> Project Structure -> Artifacts -> from module with dependencies, then click apply and next
+        - Then navigate to Build -> Artifacts and build the .jar
+        - The jar output will have the JavaFX libraries compiled with it
+### Commandline method - easiest if you don't intend on bundling it into an executable
 - First ArduinoInterface.java must be compiled into a class file      
 ```
 javac ArduinoInterface.java  
