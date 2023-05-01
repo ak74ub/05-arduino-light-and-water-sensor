@@ -139,7 +139,18 @@ public class ArduinoInterface extends Application {
     }
     
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Process p = Runtime.getRuntime().exec("python something.py");
         launch(args);
+        p.destroy();
+
+        p = Runtime.getRuntime().exec("python SensorDataToExcel.py");
+
+        /* probably not necessary, but it's good to clean up */
+        try {
+            p.waitFor();
+        } catch (InterruptedException e) {
+            // i will not
+        }
     }
 }
