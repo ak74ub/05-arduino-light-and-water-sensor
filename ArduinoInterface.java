@@ -113,20 +113,20 @@ public class ArduinoInterface extends Application {
             for (int i = 0; i < averages.length; i++) {
                 averages[i] = sums[i] / lines.size();
             }
-
+    
             // Format the averages to 5 significant figures
             DecimalFormat df = new DecimalFormat("#.###");
             String tempAvg = df.format(averages[0]);
             String luxAvg = df.format(averages[1]);
             String voltageAvg = df.format(averages[2]);
-
+    
             // Display the column-wise averages in the TextArea
             textArea.setText("Average Temperature: " + tempAvg + "\n" +
                     "----------------------------------------------------------------"+"\n"+
                     "Average Lux: " + luxAvg + "\n" +
                     "----------------------------------------------------------------"+"\n"+
                     "Average Voltage Capacity: " + voltageAvg);
-
+    
             // Check if the soil is wet or dry based on the average voltage capacity
             if (averages[2] > 500) {
                 textArea.appendText("\nSoil Status: The soil is wet"+"\n"+"----------------------------------------------------------------");
@@ -137,7 +137,7 @@ public class ArduinoInterface extends Application {
             e.printStackTrace();
         }
     }
-
+    
 
     public static void main(String[] args) {
         launch(args);

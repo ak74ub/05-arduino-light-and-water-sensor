@@ -13,7 +13,8 @@ while sensorInfo[-1] == "\n": # if readline times out no new line character will
     f.close() # close file while ser.readline() blocks
     sensorInfo = ser.readline().decode() # blocking call. Sleep is not needed
     f = open("SensorData.txt", "a")
-    f.write(sensorInfo)
+    f.write(sensorInfo + "\n")
+    print("Writen : ", sensorInfo)
 
 
 f.close()   # good practice or something
