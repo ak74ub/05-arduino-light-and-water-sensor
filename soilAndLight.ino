@@ -26,16 +26,16 @@ void setup(){
 
 void loop(){
     //Storing the variables from the sensors
-    float tempC = soil_sensor.getTemp();
+    float soil_temp = soil_sensor.getTemp();
     float lux = light_meter.readLightLevel();
-    uint16_t capread = soil_sensor.touchRead(0);
+    uint16_t soil_moisture = soil_sensor.touchRead(0);
 
     //Converting floats to string due to Arduino IDE does not take Floats
     dtostrf(lux,4,2,Str_Lux);
-    dtostrf(tempC, 4, 2, Str_Temp);
+    dtostrf(soil_temp, 4, 2, Str_Temp);
 
     //Taking the data and sending it to the COM port to be read by ReadSensor.py 
-    snprintf(sensor_data, 20, "%s %s %d", Str_Temp, Str_Lux, capread);
+    snprintf(sensor_data, 20, "%s %s %d", Str_Temp, Str_Lux, soil_moisture);
     Serial.println(sensor_data);
     delay(1000);
 }

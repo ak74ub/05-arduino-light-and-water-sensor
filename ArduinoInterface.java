@@ -7,6 +7,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.TextArea;
+import java.text.DecimalFormat;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,30 +31,26 @@ public class ArduinoInterface extends Application {
         gridPane.setVgap(10);
 
         // Create a Label and add it to the GridPane
-        Label label2 = new Label("Soil Moisture:");
+        Label label2 = new Label("Welcome to our Software Design Project!");
         gridPane.add(label2, 0, 2);
 
-        // Create a TextArea for file 2 and add it to the GridPane
-        textArea2 = new TextArea();
-        gridPane.add(textArea2, 0, 3, 3, 1);
-
         // Create a Label and add it to the GridPane
-        Label label3 = new Label("Sun Lux Level:");
+        Label label3 = new Label("Data Value:");
         gridPane.add(label3, 0, 4);
 
         // Create a TextArea for file 3 and add it to the GridPane
         textArea3 = new TextArea();
         gridPane.add(textArea3, 0, 5, 3, 1);
 
-        // Create a Button to read the contents of soil
-        Button button2 = new Button("Soil moisture");
-        button2.setOnAction(event -> readFile("file2.txt", textArea2));
-        gridPane.add(button2, 1, 6);
+        // // Create a Button to read the contents of soil
+        // Button button2 = new Button("Soil moisture");
+        // button2.setOnAction(event -> readFile("file2.txt", textArea2));
+        // gridPane.add(button2, 1, 6);
 
         // Create a Button to read the contents of Sun
-        Button button3 = new Button("Sun Analyzer");
+        Button button3 = new Button("Analyze Data");
         button3.setOnAction(event -> findColumnAverages("SensorData.txt", textArea3));
-        gridPane.add(button3, 2, 6);
+        gridPane.add(button3, 0, 6);
 
         // Create a Scene and display it on the Stage
         Scene scene = new Scene(gridPane, 400, 400);
@@ -74,7 +72,7 @@ public class ArduinoInterface extends Application {
         try {
             // Read the lines from the specified file
             Stream<String> lines = Files.lines(new File(filename).toPath());
-    
+
             // Split each line into an array of numbers
             double[][] numbers = lines.map(line -> {
                 String[] tokens = line.split("\\s+");
@@ -84,14 +82,14 @@ public class ArduinoInterface extends Application {
                 }
                 return row;
             }).toArray(double[][]::new);
-    
+
             // Calculate the average of each row and display it in the TextArea
             for (double[] row : numbers) {
                 double sum = Arrays.stream(row).sum();
                 double average = sum / row.length;
                 textArea.appendText(String.format("Average: %.2f\n", average));
             }
-    
+
             // Close the stream
             lines.close();
         } catch (IOException e) {
@@ -102,7 +100,7 @@ public class ArduinoInterface extends Application {
         try {
             // Read the contents of the specified file
             List<String> lines = Files.readAllLines(new File(filename).toPath());
-    
+
             // Parse each line as an array of doubles and calculate the column-wise average
             double[] sums = new double[3];
             for (String line : lines) {
@@ -116,20 +114,43 @@ public class ArduinoInterface extends Application {
                 averages[i] = sums[i] / lines.size();
             }
     
+            // Format the averages to 5 significant figures
+            DecimalFormat df = new DecimalFormat("#.###");
+            String tempAvg = df.format(averages[0]);
+            String luxAvg = df.format(averages[1]);
+            String voltageAvg = df.format(averages[2]);
+    
             // Display the column-wise averages in the TextArea
-            textArea.setText("Average Temperature: " + averages[0] + "\n" +
+            textArea.setText("Average Temperature: " + tempAvg + "\n" +
                     "----------------------------------------------------------------"+"\n"+
-                    "Average Lux: " + averages[1] + "\n" +
+                    "Average Lux: " + luxAvg + "\n" +
                     "----------------------------------------------------------------"+"\n"+
-                    "Average Voltage Capacity: " + averages[2]);
+                    "Average Voltage Capacity: " + voltageAvg);
+    
+            // Check if the soil is wet or dry based on the average voltage capacity
+            if (averages[2] > 500) {
+                textArea.appendText("\nSoil Status: The soil is wet"+"\n"+"----------------------------------------------------------------");
+            } else {
+                textArea.appendText("\nSoil Status: The soil is dry"+"\n"+"----------------------------------------------------------------");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Process p = Runtime.getRuntime().exec("python something.py");
         launch(args);
+        p.destroy();
+
+        p = Runtime.getRuntime().exec("python SensorDataToExcel.py");
+
+        /* probably not necessary, but it's good to clean up */
+        try {
+            p.waitFor();
+        } catch (InterruptedException e) {
+            // i will not
+        }
     }
 }
