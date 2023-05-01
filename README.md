@@ -28,7 +28,7 @@ java -jar ArduinoInterface.jar
 - You must have a branch assigned to you before you can start contributing
     + Please reach out to one of the people already working on this project to have a branch created for you
 - The current goal is to get data from the Arduino transferring to a computer over Wi-Fi
-    + This will mainly involve modifications mainly to soilAndLight.ino and ReadSensor.py
+    + This will mainly involve modifications to soilAndLight.ino and ReadSensor.py
 ### Required Hardware
 ```
 Arduino Uno
