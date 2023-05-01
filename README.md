@@ -50,11 +50,5 @@ javac ArduinoInterface.java
 ```
 jar cvfe ArduinoInterface.jar ArduinoInterface ArduinoInterface.class
 ```
-- At this point you should be greeted with an interface similar to the one linked at the top of this README
-# How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 
+- At this point you should be greeted with an interface similar to the one at the top of this README 
+- No changes are being made to the GUI at this time, so it can be used to test changes made to soilAndLight.ino and ReadSensor.py. Because of the way the GUI functions, there is no need to recompile it after changing either of the previously mentioned files
