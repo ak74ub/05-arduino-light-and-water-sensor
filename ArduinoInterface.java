@@ -9,7 +9,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 import java.text.DecimalFormat;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +17,11 @@ import java.util.stream.Stream;
 import java.util.List;
 
 
+/**
+ * This is the ArduinoInterface class.
+ * The private variables are TextArea, textArea2, and textArea3.
+ * I only end up using one of the private variable at the end of the project because I went through editing
+ */
 public class ArduinoInterface extends Application {
 
     private TextArea  textArea2, textArea3;
