@@ -5,5 +5,7 @@ public class launcher {
         Process p = Runtime.getRuntime().exec("python scriptrunner.py");
         ArduinoInterface.main(args);
         p.destroy();
+
+        Runtime.getRuntime().exec("python ExcelWrapper.py");
     }
 }
