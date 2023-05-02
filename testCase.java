@@ -5,7 +5,13 @@ import java.util.Scanner;
 
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/** 
+* These are my test cases
+For testFindMinMax: It will find the min and maax of the column
+For testLuxInrage: It will check the lux column to see if its in a certain range so between 1 and 65535
+For testCapacitiveRange: It will check the CapacitiveRange to see if its in a certain range so between 200 and 2000
+For testOnlyNumbers: It will check if there is only numbers in the file. No letters or symbols.
+*/
 public class testCase {
 
     @Test
@@ -27,6 +33,7 @@ public class testCase {
             if (val > max) {
                 max = val;
             }
+            
         }
 
         reader.close();
@@ -34,6 +41,7 @@ public class testCase {
         assertEquals(174.17, min, 0.01);
         assertEquals(184.17, max, 0.01);
     }
+    
     @Test
     public void testLuxInRange() throws IOException {
         String filePath = "SensorData.txt";

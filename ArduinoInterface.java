@@ -9,7 +9,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.TextArea;
 import java.text.DecimalFormat;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +17,14 @@ import java.util.stream.Stream;
 import java.util.List;
 
 
+/**
+ * This is the ArduinoInterface class.
+ * The private variables are TextArea, textArea2, and textArea3.
+ * I only end up using one of the private variable at the end of the project because I went through editing.
+ * Further down the code, I coded the labels to use for the JavaFX GUI. I only end up using one of the label in the end.
+ * I also created the button called button3 and set it to a function that opnes the file and reads it and gives me the average for each column.
+ * Then with the Scene code it sets up the scene when you open it. the 400, 400 is the X and Y for the layout.
+ */
 public class ArduinoInterface extends Application {
 
     private TextArea  textArea2, textArea3;
@@ -57,7 +64,9 @@ public class ArduinoInterface extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    /** 
+* In this readFile method, it reads the file
+*/
     private void readFile(String filename, TextArea textArea) {
         // Read the contents of the specified file
         try {
@@ -68,6 +77,12 @@ public class ArduinoInterface extends Application {
             e.printStackTrace();
         }
     }
+    /** 
+* In findAverage method, it will read the file and print out the average given in the file.
+I created a double arraay of numbers and it would spilt it then parse it.
+I didnt end up uding this mehtod becasue one problem I came up with it is becauuse it collected the data in a row but not in a column.
+It would give me the wrong average.
+*/
     private void findAverage(String filename, TextArea textArea) {
         try {
             // Read the lines from the specified file
@@ -96,6 +111,13 @@ public class ArduinoInterface extends Application {
             e.printStackTrace();
         }
     }
+    /** 
+* For the findColumAverages, this fixes the problem that I had with the findAverage method. 
+This one will collect the data from each column. It will parse each line as an array of doubles and calculate the colum averaage
+Then after I find the average, I will make the average only goes up to 5 significant figures because it will output a lot of figures because it is set to a double.
+then I will print it all out. 
+then I created an if condition to check if column[2] is greater than 500 or less than 500 to check if soil is wet. 
+*/
     private void findColumnAverages(String filename, TextArea textArea) {
         try {
             // Read the contents of the specified file
